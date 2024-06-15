@@ -7,6 +7,7 @@ import org.owasp.dependencycheck.exception.ExceptionCollection;
 import org.owasp.dependencycheck.reporting.ReportGenerator;
 import org.owasp.dependencycheck.utils.Settings;
 
+import java.awt.*;
 import java.io.File;
 import java.util.List;
 import java.util.function.Consumer;
@@ -50,10 +51,19 @@ public class DependencyScanner {
                 }
             }
 
+            // Generate the report and show the URL
             File reportFile = new File("dependency-check-report.html");
             engine.writeReports("dependency-check", new File(reportFile.getParent()), ReportGenerator.Format.ALL.name(), new ExceptionCollection());
-            outputCallback.accept("Report generated: " + reportFile.getAbsolutePath());
+            String reportPath = reportFile.getAbsolutePath();
+            outputCallback.accept("Report generated: " + reportPath);
             progressCallback.accept(1.0); // Ensure progress is set to 100% at the end
+
+            // Open the report in the default web browser
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().browse(reportFile.toURI());
+            } else {
+                outputCallback.accept("Opening report in the browser is not supported on this platform.");
+            }
         } catch (Exception e) {
             outputCallback.accept("Error: " + e.getMessage());
         } finally {
