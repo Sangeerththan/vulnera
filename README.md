@@ -40,7 +40,9 @@ To get started with development or contribute to the project:
 
 ## Build
 - `mvn clean package`
-
+## Run
+- Download the javafx-sdk and specify the path in the below command
+- `java --module-path /path/to/javafx-sdk-22.0.1/lib --add-modules javafx.controls,javafx.fxml -jar target/DependencyScanner-1.0.jar`
 ## Run Configuration
 ![image](https://github.com/Sangeerththan/vulnera/assets/25486160/ae3c68fa-b0aa-43e4-9687-54c0e97bd331)
 ![image](https://github.com/Sangeerththan/vulnera/assets/25486160/7edfb5de-b662-48fe-bbd9-702efe42852a)
