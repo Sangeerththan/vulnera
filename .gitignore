@@ -38,3 +38,4 @@ build/
 .DS_Store
 
 javafx-sdk-22.0.1
+.idea
