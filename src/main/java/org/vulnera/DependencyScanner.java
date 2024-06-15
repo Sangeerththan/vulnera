@@ -52,7 +52,7 @@ public class DependencyScanner {
             }
 
             // Generate the report and show the URL
-            File reportFile = new File("dependency-check-report.html");
+            File reportFile = new File("./dependency-check-report.html");
             engine.writeReports("dependency-check", new File(reportFile.getParent()), ReportGenerator.Format.ALL.name(), new ExceptionCollection());
             String reportPath = reportFile.getAbsolutePath();
             outputCallback.accept("Report generated: " + reportPath);
