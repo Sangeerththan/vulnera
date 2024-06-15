@@ -6,6 +6,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import java.io.File;
 public class DependencyScannerApp extends Application {
 
     private TextArea outputArea;
+    private ProgressBar progressBar;
 
     public static void main(String[] args) {
         launch(args);
@@ -28,10 +30,12 @@ public class DependencyScannerApp extends Application {
         Button button = new Button("Choose Directory");
         outputArea = new TextArea();
         outputArea.setEditable(false);
+        progressBar = new ProgressBar(0);
+        progressBar.setPrefWidth(580);
 
-        button.setOnAction(event -> chooseDirectory(primaryStage)); // No return statement here
+        button.setOnAction(event -> chooseDirectory(primaryStage));
 
-        VBox vbox = new VBox(10, label, button, outputArea);
+        VBox vbox = new VBox(10, label, button, progressBar, outputArea);
         vbox.setPadding(new Insets(10));
 
         Scene scene = new Scene(vbox, 600, 400);
@@ -45,18 +49,28 @@ public class DependencyScannerApp extends Application {
         File selectedDirectory = directoryChooser.showDialog(stage);
 
         if (selectedDirectory != null) {
+            updateOutput("Selected directory: " + selectedDirectory.getAbsolutePath());
             scanDependencies(selectedDirectory.getAbsolutePath());
+        } else {
+            updateOutput("No directory selected.");
         }
     }
 
     private void scanDependencies(String projectPath) {
         new Thread(() -> {
             DependencyScanner scanner = new DependencyScanner();
-            scanner.scanDependencies(projectPath, this::updateOutput);
+            scanner.scanDependencies(projectPath, this::updateOutput, this::updateProgress);
         }).start();
     }
 
     private void updateOutput(String message) {
-        javafx.application.Platform.runLater(() -> outputArea.appendText(message + "\n"));
+        javafx.application.Platform.runLater(() -> {
+            outputArea.appendText(message + "\n");
+            System.out.println(message); // Print to console for debugging
+        });
+    }
+
+    private void updateProgress(double progress) {
+        javafx.application.Platform.runLater(() -> progressBar.setProgress(progress));
     }
 }
