@@ -17,6 +17,9 @@ public class DependencyScanner {
         Settings settings = new Settings();
         settings.setString(Settings.KEYS.AUTO_UPDATE, "true");
 
+        // Disable .NET Assembly analysis
+        settings.setBoolean(Settings.KEYS.ANALYZER_ASSEMBLY_ENABLED, false);
+
         try (Engine engine = new Engine(settings)) {
             outputCallback.accept("Scanning started...");
             engine.scan(new File(projectPath));
