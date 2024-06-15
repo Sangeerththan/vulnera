@@ -3,6 +3,7 @@ package org.vulnera;
 import org.owasp.dependencycheck.Engine;
 import org.owasp.dependencycheck.dependency.Dependency;
 import org.owasp.dependencycheck.dependency.Vulnerability;
+import org.owasp.dependencycheck.exception.ExceptionCollection;
 import org.owasp.dependencycheck.reporting.ReportGenerator;
 import org.owasp.dependencycheck.utils.Settings;
 
@@ -47,7 +48,7 @@ public class DependencyScanner {
             }
 
             File reportFile = new File("dependency-check-report.html");
-            engine.writeReports("dependency-check", new File(reportFile.getParent()), ReportGenerator.Format.ALL.name());
+            engine.writeReports("dependency-check", new File(reportFile.getParent()), ReportGenerator.Format.ALL.name(), new ExceptionCollection());
             outputCallback.accept("Report generated: " + reportFile.getAbsolutePath());
             progressCallback.accept(1.0); // Ensure progress is set to 100% at the end
         } catch (Exception e) {
