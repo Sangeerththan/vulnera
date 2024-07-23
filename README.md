@@ -1,4 +1,4 @@
-# Dependency Scanner
+# Dependency Scanner [![Java CI with Maven](https://github.com/Sangeerththan/vulnera/actions/workflows/maven.yml/badge.svg)](https://github.com/Sangeerththan/vulnera/actions/workflows/maven.yml)
 
 The Dependency Scanner is a Java application designed to scan project directories for dependencies and identify potential vulnerabilities. It utilizes OWASP Dependency Check to analyze dependencies and detect security issues that may exist within them.
 
